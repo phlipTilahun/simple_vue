@@ -1,4 +1,4 @@
-# crm_vue
+# simple_vue
 
 ## Project setup
 ```
