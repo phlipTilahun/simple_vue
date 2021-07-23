@@ -93,8 +93,6 @@ export default {
                             for(const property in error.response.data){
                                 this.errors.push[`${property}: ${error.response.data[property]}`]
                             }
-                            console.log(Object.keys(error.response))
-                            console.log(Object.keys(error.response.data))
                         }else if (error.message){
                             this.errors.push('Something went wrong. Please try again in a while')
                         }
