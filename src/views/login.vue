@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <div class="columns">
-            <div class="column is-4 is-offset-4">
-                <h1 class="title">Log in</h1>
+            <div class="column is-4 is-offset-4 has-background-info-light mt-6" >
+                <h1 class="title mt-5">Log in</h1>
 
                 <form @submit.prevent="submitForm">
                     <div class="field">
                         <label>Username</label>
                             <div class="control">
-                                <input type="email" name="username" class="input" v-model="username">
+                                <input type="text" name="username" class="input" v-model="username">
                             </div>   
                     </div>         
 
@@ -19,11 +19,11 @@
                             </div>   
                     </div>                                       
 
-                    <div class="notification is-danger" v-if="errors.length">
+                    <div class="notification is-danger has-text-dark" v-if="errors.length">
                         <p v-for="error in errors" v-bind:key="error" > {{ error }} </p>
                     </div>  
 
-                    <div class="field">
+                    <div class="field mb-6">
                         <div class="control">
                             <button class="button is-success">Submit</button>
                         </div>   
@@ -51,12 +51,6 @@ export default {
         submitForm(){
 
             this.errors = []
-            if (this.username === ''){
-                this.errors.push('Username is Missing')
-            }
-            if(this.password1 === ''){
-                this.errors.push('Password is Missing')
-            }
 
             axios.defaults.headers.common['Authorization'] = ''
             localStorage.removeItem('token')
@@ -77,13 +71,13 @@ export default {
                      axios.defaults.headers.common['Authorization'] = 'Token ' + token
 
                      localStorage.setItem['token', token]
-                     
+
                      this.$router.push('/dashboard')
                  })
                 .catch(error => {
                         if (error.response){
                             for(const property in error.response.data){
-                                this.errors.push[`${property}: ${error.response.data[property]}`]
+                                this.errors.push(`${property}: ${error.response.data[property]}`)
                             }
                         }else if (error.message){
                             this.errors.push('Something went wrong. Please try again in a while')

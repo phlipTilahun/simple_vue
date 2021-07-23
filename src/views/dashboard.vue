@@ -1,16 +1,22 @@
 <template>
     <div class="container">
         <div class="rows is-multiline">
-            <div class="column is-4 is-offset-4">
-                <h1 class="title">Dashboard</h1>
+            <div class="rows is-centered mb-4">
+                <h1 class="column title">Dashboard</h1>
+                <div class="notification is-info is-centered pl-5" v-if="username">
+                        <p v-bind:key="username"> {{ username }} </p>
+                </div>                
             </div> 
             
-            <div class="notification is-primary" v-if="people.length">
-                    <p v-for="person in people" v-bind:key="person"> {{ person }} </p>
+            <div class="notification is-info" v-if="people.length">
+                    <div v-for="person in people" v-bind:key="person">    
+                        <hr>
+                        {{ person }} 
+                    </div>
             </div> 
 
-            <div class="columns ">
-                <div class="column is-4 is-offset-4 mr-0">
+            <div class="columns is-centered">
+                <div class="column mr-3">
                     <button @click="addPerson()" class="button is-success"> Add Person</button>
                 </div> 
 
@@ -30,7 +36,8 @@ export default {
     name: 'Dashboard',
     data(){
          return {
-             people: []
+             people: [],
+             username: ''
          }
     },    
     methods: {
@@ -62,6 +69,7 @@ export default {
              axios
                        .get('/api/v1/users/me/')
                        .then(response => {
+                           this.username = response.data.username
                            axios
                                 .get(`/api/v1/addpeople/getpeople/${response.data.id}`)
                                 .then(response => {
@@ -69,8 +77,16 @@ export default {
                                     const peps = String(response.data).split("\n")
                                     
                                     for(const pep in peps){
-                                            console.log(peps[pep])
-                                            this.people.push(peps[pep])
+                                            var line = peps[pep].split(" ")
+                                            var line1 = ""
+                                            for(let j=0; j<line.length; j++){
+                                                for(let i = 0; i<(80-line[j].length); i++){
+                                                    line[j] = line[j] + '\xa0'
+                                                } 
+                                                line1 = line1 + line[j]
+                                            }
+
+                                            this.people.push(line1)
                                     }                                    
                                 })
                                 .catch(error => {

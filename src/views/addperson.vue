@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="columns">
-            <div class="column is-4 is-offset-4">
-                <h1 class="title">Add Person</h1>
+            <div class="column is-4 is-offset-4 has-background-info-light mt-6">
+                <h1 class="title mt-5">Add Person</h1>
 
                 <form @submit.prevent="submitForm">
                     <div class="field">
@@ -36,11 +36,11 @@
                             </div>   
                     </div>                                        
                     
-                    <div class="notification is-danger" v-if="errors.length">
+                    <div class="notification is-danger has-text-dark" v-if="errors.length">
                         <p v-for="error in errors" v-bind:key="error" > {{ error }} </p>
                     </div>  
 
-                    <div class="field">
+                    <div class="field mb-6">
                         <div class="control">
                             <button class="button is-success">Submit</button>
                         </div>   
@@ -103,8 +103,11 @@ export default {
                     axios
                          .post('/api/v1/addpeople/postperson/', formData)
                          .then(response => {
-                            console.log(response.data)
-                            this.$router.push('/dashboard')
+                            if(response.data != 'Success'){
+                               this.errors.push('Person already exists')
+                            }else{
+                                this.$router.push('/dashboard')
+                            }
                          })
                         .catch(error => {
                             if (error.response){

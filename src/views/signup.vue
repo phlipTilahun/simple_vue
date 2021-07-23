@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <div class="columns">
-            <div class="column is-4 is-offset-4">
-                <h1 class="title">Sign up</h1>
+            <div class="column is-4 is-offset-4 has-background-info-light mt-6">
+                <h1 class="title mt-5">Sign up</h1>
 
                 <form @submit.prevent="submitForm">
                     <div class="field">
                         <label>Username</label>
                             <div class="control">
-                                <input type="email" name="email" class="input" v-model="username">
+                                <input type="text" name="email" class="input" v-model="username">
                             </div>   
                     </div>         
 
@@ -26,11 +26,11 @@
                             </div>   
                     </div>                                        
 
-                    <div class="notification is-danger" v-if="errors.length">
+                    <div class="notification is-danger has-text-dark" v-if="errors.length">
                         <p v-for="error in errors" v-bind:key="error" > {{ error }} </p>
                     </div>    
 
-                    <div class="field">
+                    <div class="field mb-6">
                         <div class="control">
                             <button class="button is-success">Submit</button>
                         </div>   
@@ -91,7 +91,7 @@ export default {
                     .catch(error => {
                         if (error.response){
                             for(const property in error.response.data){
-                                this.errors.push[`${property}: ${error.response.data[property]}`]
+                                this.errors.push(`${error.response.data[property]}`)
                             }
                         }else if (error.message){
                             this.errors.push('Something went wrong. Please try again in a while')
